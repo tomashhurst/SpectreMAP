@@ -9,8 +9,8 @@
     package.check()
     package.load()
 
-    # package.check(type = "spatial")
-    # package.load(type = "spatial")
+    package.check(type = "spatial")
+    package.load(type = "spatial")
 
 ### Set directories
 
@@ -35,7 +35,7 @@
 
     as.matrix(names(spatial.dat)) # ROI names
     names(spatial.dat[[1]]) # only rasters  currently in the data
-    as.matrix(names(spatial.dat[[1]]$rasters)) # TIFF names of first ROI
+    as.matrix(names(spatial.dat[[1]]$RASTERS)) # TIFF names of first ROI
 
 ### Read in masks
 
@@ -56,8 +56,8 @@
 
     names(spatial.dat[[1]])
 
-    spatial.dat[[1]]$rasters
-    spatial.dat[[1]]$cell_mask
+    spatial.dat[[1]]$RASTERS
+    spatial.dat[[1]]$MASKS
 
 
 ### Create cell outlines
@@ -66,7 +66,7 @@
                                       mask.name = "cell_mask")
 
     as.matrix(names(spatial.dat[[1]]))
-    as.matrix(names(spatial.dat[[1]]$cell_mask))
+    as.matrix(names(spatial.dat[[1]]$MASKS$cell_mask))
 
 
 ###################################################################################
@@ -112,6 +112,8 @@
                                   roi.col = "ImageName",
                                   name = "per.cell")
 
+    spatial.dat[[1]]$CPDATA
+
 ### Filter and adjust the most useful datasets
 
     filters <- c("Intensity_MeanIntensity_FullStack_",
@@ -142,8 +144,8 @@
 
 
     as.matrix(names(spatial.dat[[1]]))
-    spatial.dat[[1]]$Intensity_MeanIntensity_
-    spatial.dat[[1]]$Intensity_IntegratedIntensityFiltered_
+    spatial.dat[[1]]$CPDATA$Intensity_MeanIntensity_
+    spatial.dat[[1]]$CPDATA$Intensity_IntegratedIntensityFiltered_
 
 
 ###################################################################################
@@ -163,31 +165,31 @@
         as.matrix(new.names)
 
         ##
-        as.matrix(names(spatial.dat[[1]]$Intensity_MeanIntensity_))
+        as.matrix(names(spatial.dat[[1]]$CPDATA$Intensity_MeanIntensity_))
 
         target.nums <- c(4:16)
-        target.names <- names(spatial.dat[[1]]$Intensity_MeanIntensity_)[target.nums]
+        target.names <- names(spatial.dat[[1]]$CPDATA$Intensity_MeanIntensity_)[target.nums]
         as.matrix(target.names)
 
         for(i in names(spatial.dat)){
           # i <- names(spatial.dat)[[1]]
           for(a in nms){
             # a <- nms[[1]]
-              names(spatial.dat[[i]][[a]])[target.nums] <- new.names
+              names(spatial.dat[[i]]$CPDATA[[a]])[target.nums] <- new.names
           }
         }
 
-        as.matrix(names(spatial.dat[[1]]$Intensity_MeanIntensity_))
-        as.matrix(names(spatial.dat[[1]]$Intensity_IntegratedIntensityFiltered_))
+        as.matrix(names(spatial.dat[[1]]$CPDATA$Intensity_MeanIntensity_))
+        as.matrix(names(spatial.dat[[1]]$CPDATA$Intensity_IntegratedIntensityFiltered_))
 
-        as.matrix(names(spatial.dat[[2]]$Intensity_MeanIntensity_))
-        as.matrix(names(spatial.dat[[2]]$Intensity_IntegratedIntensityFiltered_))
+        as.matrix(names(spatial.dat[[2]]$CPDATA$Intensity_MeanIntensity_))
+        as.matrix(names(spatial.dat[[2]]$CPDATA$Intensity_IntegratedIntensityFiltered_))
 
 ### Quick visualisation test
 
     as.matrix(names(spatial.dat))
-    as.matrix(names(spatial.dat$`20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac`$rasters))
-    as.matrix(names(spatial.dat$`20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac`$Intensity_MeanIntensityFiltered_))
+    as.matrix(names(spatial.dat$`20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac`$RASTERS))
+    as.matrix(names(spatial.dat$`20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac`$CPDATA$Intensity_MeanIntensityFiltered_))
 
     make.spatial.plot(spatial.dat,
                       image.roi = "20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac",
@@ -201,5 +203,3 @@
     setwd(start.dir)
     saveRDS(spatial.dat, file = "spatial.dat.rds")
 
-
-    save(spatial.dat, file = "spatial.dat.RDATA")

@@ -7,9 +7,19 @@
 read.spatial.files()
 }
 \arguments{
-\item{rois}{}
+\item{rois}{vector of ROI names (directory names)}
 
-\item{ext}{}
+\item{roi.loc}{working directory for ROIs}
+
+\item{multi.tiff}{Default FALSE}
+
+\item{correct.extent}{Default TRUE}
+
+\item{flip.y}{Default TRUE}
+
+\item{value.modifier}{Default 65535}
+
+\item{ext}{Default = ".tiff"}
 }
 \value{
 Returns a spatial data object.

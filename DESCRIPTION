@@ -8,4 +8,16 @@ Description: A computational toolbox as an extension of the Spectre package, tai
 License: MIT
 Encoding: UTF-8
 LazyData: true
+Imports:
+    data.table,
+    rstudioapi,
+    ggplot2,
+    ggthemes,
+    scales,
+    colorRamps,
+    RColorBrewer,
+    gridExtra,
+    raster,
+    tiff,
+    rgeos
 RoxygenNote: 7.1.1
