@@ -2,22 +2,37 @@
 ### Setup
 ###################################################################################
 
-    ### Install SpectreMAP
+    ## Install devtools (if not already installed)
+        if(!require('devtools')) {install.packages('devtools')}
 
+    ### Install Spectre and SpectreMAP
         library('devtools')
+        install_github("sydneycytometry/spectre")
         install_github("tomashhurst/SpectreMAP")
+
+    ### Install additional packages
+        ## Install BiocManager to download packages from Bioconductor
+        if (!requireNamespace("BiocManager", quietly = TRUE))
+          install.packages("BiocManager")
+
+        ## Download additional BioConductor packages
+        if(!require('flowCore')) {BiocManager::install('flowCore')}
+        if(!require('Biobase')) {BiocManager::install('Biobase')}
+        if(!require('flowViz')) {BiocManager::install('flowViz')}
+        if(!require('FlowSOM')) {BiocManager::install('FlowSOM')}
+
+        ## Velox for fast extraction
+        install_github("hunzikp/velox")
 
     ### Load packages
 
         library(Spectre)
+        library(SpectreMAP)
+
         package.check()
         package.load()
 
-
-        library(SpectreMAP)
-        install_github("hunzikp/velox")
         library('velox')
-
         library(raster)
 
     ### Set directories
@@ -75,21 +90,6 @@
         spatial.dat[[1]]$RASTERS
         spatial.dat[[1]]$MASKS
 
-        raster::rasterToPoints(spatial.dat[[1]]$RASTERS$X127I_I127)
-
-        library(sf)
-        library(stars)
-
-
-        raster::raster(spatial.dat[[1]]$RASTERS$X127I_I127)
-
-        # x <- st_as_stars(spatial.dat[[1]]$RASTERS$X127I_I127) %>%
-        #   st_as_sf(merge = TRUE) %>% # this is the raster to polygons part
-        #   st_cast("MULTILINESTRING") # cast the polygons to polylines
-        #
-
-
-
     ### Create cell outlines
 
         spatial.dat <- do.create.outlines(spatial.dat = spatial.dat, mask.name = "cell_mask")
@@ -101,8 +101,6 @@
 
         spatial.dat[[1]]$MASKS$cell_mask$polygons
         spatial.dat[[1]]$MASKS$cell_mask$outlines
-
-        plot(spatial.dat[[1]]$MASKS$cell_mask$polygons)
 
     ### Summarise 'per cell' data
 
@@ -126,7 +124,7 @@
 
 
 ###################################################################################
-### Create 'cellular' data and plot
+### Merge 'cellular' data and plot
 ###################################################################################
 
     setwd(output.dir)

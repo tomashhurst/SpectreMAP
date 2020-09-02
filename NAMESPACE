@@ -3,6 +3,7 @@
 export(do.add.masks)
 export(do.add.percell)
 export(do.create.outlines)
+export(do.extract)
 export(do.extract.cell.dat)
 export(do.filter.percell)
 export(do.label.from.polygon)
