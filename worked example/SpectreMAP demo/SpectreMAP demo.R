@@ -32,8 +32,13 @@
         package.check()
         package.load()
 
+        package.check(type = 'spatial')
+        package.load(type = 'spatial')
+
         library('velox')
         library(raster)
+        library(tiff)
+        library(rgeos)
 
     ### Set directories
 
@@ -59,7 +64,7 @@
         rois <- list.dirs(getwd(), full.names = FALSE, recursive = FALSE)
         rois
 
-        spatial.dat <- read.spatial.files(roi.loc = getwd(), rois = rois)
+        spatial.dat <- SpectreMAP::read.spatial.files(roi.loc = getwd(), rois = rois)
 
     ### Check names of channels
 
@@ -106,6 +111,7 @@
 
         spatial.dat <- do.extract(dat = spatial.dat, mask = "cell_mask", name = "CellData", fun = "mean")
 
+        str(spatial.dat, 2)
 
 ###################################################################################
 ### Make some spatial plots
@@ -117,11 +123,19 @@
 
     make.spatial.plot(spatial.dat = spatial.dat,
                       image.roi = '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',
+                      image.channel = "CD20_Dy161")
+
+    make.spatial.plot(spatial.dat = spatial.dat,
+                      image.roi = '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',
+                      image.channel = "CD20_Dy161",
+                      mask.outlines = "cell_mask")
+
+    make.spatial.plot(spatial.dat = spatial.dat,
+                      image.roi = '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',
                       image.channel = "CD20_Dy161",
                       mask.outlines = "cell_mask",
                       cell.dat = "CellData",
                       cell.col = "CD20_Dy161")
-
 
 ###################################################################################
 ### Merge 'cellular' data and plot
@@ -138,7 +152,7 @@
 
         as.matrix(names(cell.dat))
 
-        cell.dat <- do.asinh(cell.dat, names(cell.dat)[c(3:27)], cofactor = 1)
+        cell.dat <- do.asinh(cell.dat, names(cell.dat)[c(4:28)], cofactor = 1)
         cell.dat
 
         make.colour.plot(cell.dat, "CD20_Dy161_asinh", "CD3_Er170_asinh")
@@ -150,6 +164,28 @@
                           cell.dat = cell.dat[cell.dat[['ROI']] == '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',],
                           cell.col = "CD20_Dy161_asinh")
 
+        as.matrix(names(cell.dat))
+
+        cell.dat <- run.flowsom(cell.dat, names(cell.dat)[c(29:53)], meta.k = 10)
+        cell.dat <- run.umap(cell.dat, names(cell.dat)[c(29:53)])
+        cell.dat
+
+        make.colour.plot(cell.dat, "UMAP_X", "UMAP_Y", "FlowSOM_metacluster", col.type = 'factor', add.label = TRUE)
+
+        make.spatial.plot(spatial.dat = spatial.dat,
+                          image.roi = '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',
+                          image.channel = "CD20_Dy161",
+                          mask.outlines = "cell_mask",
+                          cell.dat = cell.dat[cell.dat[['ROI']] == '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',],
+                          cell.col = "FlowSOM_metacluster")
+
+        make.spatial.plot(spatial.dat = spatial.dat,
+                          image.roi = '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',
+                          image.channel = "CD20_Dy161",
+                          image.blank = TRUE,
+                          mask.outlines = "cell_mask",
+                          cell.dat = cell.dat[cell.dat[['ROI']] == '20171228_spleen315_500x500_editedforFAS_s1_p9_r2_a2_ac',],
+                          cell.col = "FlowSOM_metacluster")
 
 ###################################################################################
 ### Save spatial.data file
