@@ -13,11 +13,13 @@ do.create.outlines <- function(spatial.dat,
 ){
 
   ### Setup
-  message("This is a developmental Spectre-spatial function that is still in testing phase with limited documentation. We recommend only using this function if you know what you are doing.")
+  #message("This is a developmental Spectre-spatial function that is still in testing phase with limited documentation. We recommend only using this function if you know what you are doing.")
 
   require(raster)
   require(tiff)
   require(rgeos)
+  require(tidyr)
+  require(ggplot2)
 
   # polygons.name <- paste0(mask.name, "_polygons")
   # outlines.name <- paste0(mask.name, "_outlines")
@@ -50,6 +52,7 @@ do.create.outlines <- function(spatial.dat,
         if(use.gdal == FALSE){
           polygon <- rasterToPolygons(mask, dissolve=TRUE) # This is the long step
           spatial.dat[[i]]$MASKS[[mask.name]][["polygons"]] <- polygon
+          message("... polygons complete")
         }
 
     ## Faster workaround
@@ -141,13 +144,15 @@ do.create.outlines <- function(spatial.dat,
 
     outline <- fortify(polygon)
     spatial.dat[[i]]$MASKS[[mask.name]][["outlines"]] <- outline
+    message("... outlines complete")
 
     centroids <- gCentroid(polygon,byid=TRUE)
     spatial.dat[[i]]$MASKS[[mask.name]][["centroids"]] <- centroids
+    message("... centroids complete")
 
-    end.time <- Sys.time()
-    time.taken <- end.time - start.time
-    message(paste0("----- ROI ", i, " complete"))
+    #end.time <- Sys.time()
+    #time.taken <- end.time - start.time
+    #message(paste0("----- ROI ", i, " complete"))
     #message(paste0("----- ROI ", i, " complete in ", time.taken, " minutes"))
   }
 

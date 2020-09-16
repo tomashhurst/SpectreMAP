@@ -1,7 +1,7 @@
 Package: SpectreMAP
 Type: Package
 Title: Spatial analysis of high-dimensional imaging data
-Version: 0.1.0
+Version: 0.2.0
 Author: Dr. Thomas Ashhurst
 Maintainer: Dr. Thomas Ashhurst <thomas.ashhurst@sydney.edu.au>
 Description: A computational toolbox as an extension of the Spectre package, tailored specifically to spatial analysis of high-dimensional imaging datasets.
