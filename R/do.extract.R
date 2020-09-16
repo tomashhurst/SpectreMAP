@@ -1,5 +1,7 @@
 #' do.extract
 #'
+#' @import data.table
+#'
 #' @export
 
 do.extract <- function(dat, # spatial.data object
