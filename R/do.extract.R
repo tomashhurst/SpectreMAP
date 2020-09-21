@@ -49,8 +49,8 @@ do.extract <- function(dat, # spatial.data object
         ## RASTERS
 
             for(i in raster.names){
-              message(paste0("... ", i))
               # i <- raster.names[[1]]
+              message(paste0("... ", i))
               temp.dat <- roi.stack[[i]]
 
               ## Slower method

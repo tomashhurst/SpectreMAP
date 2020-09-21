@@ -4,8 +4,6 @@
 #'
 #' @export
 
-#pypath = "/Library/Frameworks/GDAL.framework/Programs/gdal_polygonize.py"
-
 do.create.outlines <- function(spatial.dat,
                                mask.name,
                                method = 'stars' # 'stars', 'gdal', 'raster'
@@ -13,6 +11,7 @@ do.create.outlines <- function(spatial.dat,
 ){
 
   ### Setup
+
       #message("This is a developmental Spectre-spatial function that is still in testing phase with limited documentation. We recommend only using this function if you know what you are doing.")
 
       require(raster)
@@ -26,7 +25,6 @@ do.create.outlines <- function(spatial.dat,
       # centroids.name <- paste0(mask.name, "_centroids")
 
   ### Slow or fast version
-
 
       if(method == 'stars'){
         message(paste0("Creating polygons, outlines, and centroids using 'stars' method."))
