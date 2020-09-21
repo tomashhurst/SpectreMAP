@@ -4,7 +4,7 @@
 \alias{do.create.outlines}
 \title{do.create.outlines}
 \usage{
-do.create.outlines(spatial.dat, mask.name, use.gdal = FALSE)
+do.create.outlines(spatial.dat, mask.name, method = "stars")
 }
 \description{
 do.create.outlines
