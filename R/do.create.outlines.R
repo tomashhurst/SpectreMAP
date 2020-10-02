@@ -65,6 +65,8 @@ do.create.outlines <- function(spatial.dat,
               require(sf)
               require(sp)
 
+              names(mask) <- "TEMP_MASK"
+
               stars.mask <- stars::st_as_stars(mask)
 
               sf::st_crs(stars.mask) <- 4326
@@ -75,12 +77,16 @@ do.create.outlines <- function(spatial.dat,
                                   #na.rm = TRUE)
                                   #group = TRUE) # TRUE crashes, FALSE does not
 
+              res$TEMP_MASK
+
               res <- res %>%
-                group_by(cell_mask) %>%
+                group_by(TEMP_MASK) %>%
                 summarise(geometry = sf::st_union(geometry)) %>%
                 ungroup()
 
               polygon <- sf::as_Spatial(res)
+
+              names(polygon) <- mask.name
               crs(polygon) <- NA
 
               spatial.dat[[i]]$MASKS[[mask.name]][["polygons"]] <- polygon
