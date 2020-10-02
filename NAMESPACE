@@ -2,11 +2,13 @@
 
 export(do.add.masks)
 export(do.add.percell)
+export(do.calculate.area)
 export(do.create.outlines)
 export(do.extract)
 export(do.filter.percell)
 export(do.label.from.polygon)
 export(do.pull.data)
+export(do.region.analysis)
 export(make.spatial.plot)
 export(read.spatial.files)
 import(data.table)
