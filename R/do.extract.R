@@ -46,6 +46,9 @@ do.extract <- function(dat, # spatial.data object
         ply.centroids.df <- as.data.frame(ply.centroids)
         ply.centroids.df # mask number, with X and Y coordinates
 
+        ply.centroids.df <- cbind(ply.centroids.df, as.data.frame(area(roi.poly)))
+        names(ply.centroids.df)[3] <- "Area"
+
         ## RASTERS
 
             for(i in raster.names){
